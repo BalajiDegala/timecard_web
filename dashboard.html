@@ -1,0 +1,95 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<h1>Dashboard</h1>
+
+<div class="row">
+    <div class="col-md-6">
+        <h2>Employees per Project</h2>
+        <canvas id="projectEmployeeChart"></canvas>
+    </div>
+    <div class="col-md-6">
+        <h2>Employees per Department</h2>
+        <canvas id="departmentEmployeeChart"></canvas>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-12">
+        <h2>Total Work Hours per Project</h2>
+        <canvas id="projectWorkHoursChart"></canvas>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Employees per Project Chart
+    var projectCtx = document.getElementById('projectEmployeeChart').getContext('2d');
+    var projectChart = new Chart(projectCtx, {
+        type: 'bar',
+        data: {
+            labels: {{ project_employee_count.keys() | list | tojson }},
+            datasets: [{
+                label: 'Employees',
+                data: {{ project_employee_count.values() | list | tojson }},
+                backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 1
+                    }
+                }
+            }
+        }
+    });
+
+    // Employees per Department Chart
+    var departmentCtx = document.getElementById('departmentEmployeeChart').getContext('2d');
+    var departmentChart = new Chart(departmentCtx, {
+        type: 'pie',
+        data: {
+            labels: {{ department_employee_count.keys() | list | tojson }},
+            datasets: [{
+                data: {{ department_employee_count.values() | list | tojson }},
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.6)',
+                    'rgba(54, 162, 235, 0.6)',
+                    'rgba(255, 206, 86, 0.6)',
+                    'rgba(75, 192, 192, 0.6)',
+                    'rgba(153, 102, 255, 0.6)'
+                ]
+            }]
+        }
+    });
+
+    // Total Work Hours per Project Chart
+    var workHoursCtx = document.getElementById('projectWorkHoursChart').getContext('2d');
+    var workHoursChart = new Chart(workHoursCtx, {
+        type: 'bar',
+        data: {
+            labels: {{ project_work_hours.keys() | list | tojson }},
+            datasets: [{
+                label: 'Work Hours',
+                data: {{ project_work_hours.values() | list | tojson }},
+                backgroundColor: 'rgba(255, 159, 64, 0.6)',
+                borderColor: 'rgba(255, 159, 64, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
+
+{% endblock %}

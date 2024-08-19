@@ -1,0 +1,48 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<h1>Users</h1>
+
+<div class="row mb-3">
+    <div class="col-md-6">
+        <a href="{{ url_for('add_user') }}" class="btn btn-primary">Add New User</a>
+    </div>
+    <div class="col-md-6">
+        <form action="{{ url_for('user_list') }}" method="GET" class="form-inline justify-content-end">
+            <input type="text" name="search" class="form-control mr-2" placeholder="Search users" value="{{ search }}">
+            <button type="submit" class="btn btn-outline-primary">Search</button>
+        </form>
+    </div>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Login</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Department</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for user in users %}
+        <tr>
+            <td>{{ user.id }}</td>
+            <td>{{ user.firstname }} {{ user.lastname }}</td>
+            <td>{{ user.login }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.department.name }}</td>
+            <td>
+                <a href="{{ url_for('edit_user', user_id=user.id) }}" class="btn btn-sm btn-warning">Edit</a>
+                <a href="{{ url_for('delete_user', user_id=user.id) }}" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this user?')">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{{ pagination.links }}
+
+{% endblock %}

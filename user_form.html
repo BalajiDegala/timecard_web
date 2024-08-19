@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<h1>{{ 'Edit' if user else 'Add' }} User</h1>
+<form method="POST">
+    <div class="mb-3">
+        <label for="id" class="form-label">ID</label>
+        <input type="number" name="id" id="id" class="form-control" value="{{ user.id if user else '' }}" required>
+    </div>
+    <div class="mb-3">
+        <label for="sg_emp_id" class="form-label">SG Employee ID</label>
+        <input type="text" name="sg_emp_id" id="sg_emp_id" class="form-control" value="{{ user.sg_emp_id if user else '' }}" required>
+    </div>
+    <div class="mb-3">
+        <label for="firstname" class="form-label">First Name</label>
+        <input type="text" name="firstname" id="firstname" class="form-control" value="{{ user.firstname if user else '' }}" required>
+    </div>
+    <div class="mb-3">
+        <label for="lastname" class="form-label">Last Name</label>
+        <input type="text" name="lastname" id="lastname" class="form-control" value="{{ user.lastname if user else '' }}" required>
+    </div>
+    <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" name="email" id="email" class="form-control" value="{{ user.email if user else '' }}" required>
+    </div>
+    <div class="mb-3">
+        <label for="department_id" class="form-label">Department ID</label>
+        <input type="number" name="department_id" id="department_id" class="form-control" value="{{ user.department.id if user else '' }}" required>
+    </div>
+    <div class="mb-3">
+        <label for="department_name" class="form-label">Department Name</label>
+        <input type="text" name="department_name" id="department_name" class="form-control" value="{{ user.department.name if user else '' }}" required>
+    </div>
+    <div class="mb-3">
+        <label for="login" class="form-label">Login</label>
+        <input type="text" name="login" id="login" class="form-control" value="{{ user.login if user else '' }}" required>
+    </div>
+    <button type="submit" class="btn btn-primary">{{ 'Update' if user else 'Add' }} User</button>
+</form>
+{% endblock %}

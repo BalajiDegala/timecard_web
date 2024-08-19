@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<h1>{{ 'Edit' if project else 'Add' }} Project</h1>
+<form method="POST">
+    <div class="mb-3">
+        <label for="id" class="form-label">ID</label>
+        <input type="number" name="id" id="id" class="form-control" value="{{ project.id if project else '' }}" required>
+    </div>
+    <div class="mb-3">
+        <label for="name" class="form-label">Name</label>
+        <input type="text" name="name" id="name" class="form-control" value="{{ project.name if project else '' }}" required>
+    </div>
+    <button type="submit" class="btn btn-primary">{{ 'Update' if project else 'Add' }} Project</button>
+</form>
+{% endblock %}

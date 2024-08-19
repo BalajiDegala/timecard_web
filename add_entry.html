@@ -1,0 +1,63 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<h1>Add New Time Entry</h1>
+<form method="POST">
+    <div class="mb-3">
+        <label for="login" class="form-label">Login</label>
+        <select name="login" id="login" class="form-select" required>
+            {% for user in users %}
+            <option value="{{ user.login }}">{{ user.firstname }} {{ user.lastname }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="mb-3">
+        <label for="date" class="form-label">Date</label>
+        <input type="date" name="date" id="date" class="form-control" required>
+    </div>
+    <div class="mb-3">
+        <label for="day" class="form-label">Day</label>
+        <input type="text" name="day" id="day" class="form-control" required>
+    </div>
+    <div class="mb-3">
+        <label for="project" class="form-label">Projects</label>
+        <select name="project" id="project" class="form-select" multiple required>
+            {% for project in projects %}
+            <option value="{{ project.name }}">{{ project.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div id="task-fields"></div>
+    <div class="mb-3">
+        <label for="start_time" class="form-label">Start Time</label>
+        <input type="time" name="start_time" id="start_time" class="form-control" required>
+    </div>
+    <div class="mb-3">
+        <label for="stop_time" class="form-label">Stop Time</label>
+        <input type="time" name="stop_time" id="stop_time" class="form-control" required>
+    </div>
+    <div class="mb-3">
+        <label for="work_time" class="form-label">Work Time</label>
+        <input type="text" name="work_time" id="work_time" class="form-control" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+<script>
+    const projectSelect = document.getElementById('project');
+    const taskFields = document.getElementById('task-fields');
+
+    projectSelect.addEventListener('change', () => {
+        taskFields.innerHTML = '';
+        for (const option of projectSelect.selectedOptions) {
+            const div = document.createElement('div');
+            div.className = 'mb-3';
+            div.innerHTML = `
+                <label for="task_${option.value}" class="form-label">Task for ${option.value}</label>
+                <input type="text" name="task_${option.value}" id="task_${option.value}" class="form-control" required>
+            `;
+            taskFields.appendChild(div);
+        }
+    });
+</script>
+{% endblock %}
